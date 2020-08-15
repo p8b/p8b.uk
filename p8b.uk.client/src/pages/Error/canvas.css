@@ -1,0 +1,9 @@
+﻿.canvas1 {
+    border: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: block;
+    top: 0;
+    z-index: 1;
+}

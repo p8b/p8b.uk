@@ -1,0 +1,6 @@
+﻿textarea {
+    //    border: 1px solid #888;
+    &.danger {
+        border-top: 0.25rem solid rgb(189, 28, 28) !important;
+    }
+}

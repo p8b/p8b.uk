@@ -1,0 +1,36 @@
+﻿/*@import "../0-helpers/_variables.scss";*/
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+
+    @include fadeInDown;
+    @include faster;
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        opacity: .3;
+        background-attachment: fixed;
+        background-position: center center;
+        background-size: contain;
+        background-image: url($CodeBg-Dark);
+    }
+
+    &.dark-theme {
+        background-image: url($CodeBg-Light);
+    }
+}
+
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,330 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>p8b.uk.client</Name>
+    <RootNamespace>p8b.uk.client</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>d45b3b84-e3e2-41de-a164-50eaa09d93fb</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>server\server-development.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="build\" />
+    <Folder Include="build\cert\" />
+    <Folder Include="public\fonts\" />
+    <Folder Include="public\images\" />
+    <Folder Include="public\images\icons\" />
+    <Folder Include="public\images\projectPics\" />
+    <Folder Include="public\images\svgs\" />
+    <Folder Include="public\docs\" />
+    <Folder Include="public\styles\" />
+    <Folder Include="server\cert\" />
+    <Folder Include="src\" />
+    <Folder Include="server\" />
+    <Folder Include="public\" />
+    <Folder Include="src\actions\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\NavMenu\" />
+    <Folder Include="src\core\" />
+    <Folder Include="src\pages\Error\" />
+    <Folder Include="src\pages\Home\" />
+    <Folder Include="src\pages\Login\" />
+    <Folder Include="src\pages\MyAccount\" />
+    <Folder Include="src\scss\" />
+    <Folder Include="src\reducers\" />
+    <Folder Include="src\pages\" />
+    <Folder Include="src\scss\0-helpers\" />
+    <Folder Include="src\scss\1-tools\" />
+    <Folder Include="src\scss\1-tools\animations\" />
+    <Folder Include="src\scss\1-tools\animations\attention_seekers\" />
+    <Folder Include="src\scss\1-tools\animations\bouncing_entrances\" />
+    <Folder Include="src\scss\1-tools\animations\bouncing_exits\" />
+    <Folder Include="src\scss\1-tools\animations\fading_entrances\" />
+    <Folder Include="src\scss\1-tools\animations\fading_exits\" />
+    <Folder Include="src\scss\1-tools\animations\flippers\" />
+    <Folder Include="src\scss\1-tools\animations\lightspeed\" />
+    <Folder Include="src\scss\1-tools\animations\rotating_entrances\" />
+    <Folder Include="src\scss\1-tools\animations\rotating_exits\" />
+    <Folder Include="src\scss\1-tools\animations\sliding_entrances\" />
+    <Folder Include="src\scss\1-tools\animations\sliding_exits\" />
+    <Folder Include="src\scss\1-tools\animations\specials\" />
+    <Folder Include="src\scss\1-tools\animations\zooming_entrances\" />
+    <Folder Include="src\scss\1-tools\animations\zooming_exits\" />
+    <Folder Include="src\scss\2-bases\" />
+    <Folder Include="src\scss\3-modules\" />
+    <Folder Include="src\scss\4-pages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="babel.config.js" />
+    <Content Include="build\cert\cert.pem" />
+    <Content Include="build\cert\key.pem" />
+    <Content Include="build\package.json" />
+    <Content Include="build\server-production.js" />
+    <Content Include="package.json" />
+    <Content Include="public\docs\Majid-Joveini-CV.pdf" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\fonts\AveriaSansLibre-Bold.ttf" />
+    <Content Include="public\fonts\AveriaSansLibre-BoldItalic.ttf" />
+    <Content Include="public\fonts\AveriaSansLibre-Regular.ttf" />
+    <Content Include="public\fonts\fa-brands-400.ttf" />
+    <Content Include="public\fonts\fa-brands-400.woff" />
+    <Content Include="public\fonts\fa-brands-400.woff2" />
+    <Content Include="public\fonts\fa-regular-400.ttf" />
+    <Content Include="public\fonts\fa-regular-400.woff" />
+    <Content Include="public\fonts\fa-regular-400.woff2" />
+    <Content Include="public\fonts\fa-solid-900.ttf" />
+    <Content Include="public\fonts\fa-solid-900.woff" />
+    <Content Include="public\fonts\fa-solid-900.woff2" />
+    <Content Include="public\images\CodeBgDark.png" />
+    <Content Include="public\images\icons\Adobe-Photoshop-CC-01.svg" />
+    <Content Include="public\images\icons\Bootstrap-01.svg" />
+    <Content Include="public\images\icons\C-Sharp-01.svg" />
+    <Content Include="public\images\icons\CSS-3-01.svg" />
+    <Content Include="public\images\icons\HTML-5-01.svg" />
+    <Content Include="public\images\icons\JS.svg" />
+    <Content Include="public\images\icons\Microsoft-sql-server-01.svg" />
+    <Content Include="public\images\icons\NET_Core_Logo.svg" />
+    <Content Include="public\images\icons\Npm-01.svg" />
+    <Content Include="public\images\icons\React-01.svg" />
+    <Content Include="public\images\icons\Redux-01.svg" />
+    <Content Include="public\images\icons\Sass-01.svg" />
+    <Content Include="public\images\icons\Typescript-02.svg" />
+    <Content Include="public\images\icons\WebPack-01.svg" />
+    <Content Include="public\images\LoadSpinner.gif" />
+    <Content Include="public\images\Logo-Dark.png" />
+    <Content Include="public\images\Logo-Light.png" />
+    <Content Include="public\images\projectPics\greenwichIdea.png" />
+    <Content Include="public\images\projectPics\idea.jpg" />
+    <Content Include="public\images\projectPics\OSnack.png" />
+    <Content Include="public\images\projectPics\portfolio.png" />
+    <Content Include="public\images\svgs\Infinity-2.3s-183px.svg" />
+    <Content Include="public\index.html" />
+    <Content Include="public\manifest.json" />
+    <Content Include="public\styles\p8b-bootstrap-reboot.css" />
+    <Content Include="public\styles\p8b-bootstrap.css" />
+    <Content Include="README.md" />
+    <Content Include="server\server-development.js" />
+    <Content Include="server\server-production.js" />
+    <Content Include="server\cert\cert.pem" />
+    <Content Include="server\cert\key.pem" />
+    <Content Include="src\pages\Error\canvas.css" />
+    <Content Include="src\scss\0-helpers\_functions.scss" />
+    <Content Include="src\scss\0-helpers\_mixins.scss" />
+    <Content Include="src\scss\0-helpers\_variables.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_bounce.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_flash.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_headShake.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_heartBeat.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_jello.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_pulse.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_rubberBand.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_shake.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_swing.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_tada.scss" />
+    <Content Include="src\scss\1-tools\animations\attention_seekers\_wobble.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_entrances\_bounceIn.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_entrances\_bounceInDown.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_entrances\_bounceInLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_entrances\_bounceInRight.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_entrances\_bounceInUp.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_exits\_bounceOut.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_exits\_bounceOutDown.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_exits\_bounceOutLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_exits\_bounceOutRight.scss" />
+    <Content Include="src\scss\1-tools\animations\bouncing_exits\_bounceOutUp.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeIn.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInDown.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInDownBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInLeftBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInRight.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInRightBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInUp.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_entrances\_fadeInUpBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOut.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutDown.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutDownBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutLeftBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutRight.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutRightBig.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutUp.scss" />
+    <Content Include="src\scss\1-tools\animations\fading_exits\_fadeOutUpBig.scss" />
+    <Content Include="src\scss\1-tools\animations\flippers\_flip.scss" />
+    <Content Include="src\scss\1-tools\animations\flippers\_flipInX.scss" />
+    <Content Include="src\scss\1-tools\animations\flippers\_flipInY.scss" />
+    <Content Include="src\scss\1-tools\animations\flippers\_flipOutX.scss" />
+    <Content Include="src\scss\1-tools\animations\flippers\_flipOutY.scss" />
+    <Content Include="src\scss\1-tools\animations\lightspeed\_lightSpeedIn.scss" />
+    <Content Include="src\scss\1-tools\animations\lightspeed\_lightSpeedOut.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_entrances\_rotateIn.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_entrances\_rotateInDownLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_entrances\_rotateInDownRight.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_entrances\_rotateInUpLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_entrances\_rotateInUpRight.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_exits\_rotateOut.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_exits\_rotateOutDownLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_exits\_rotateOutDownRight.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_exits\_rotateOutUpLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\rotating_exits\_rotateOutUpRight.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_entrances\_slideInDown.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_entrances\_slideInLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_entrances\_slideInRight.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_entrances\_slideInUp.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_exits\_slideOutDown.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_exits\_slideOutLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_exits\_slideOutRight.scss" />
+    <Content Include="src\scss\1-tools\animations\sliding_exits\_slideOutUp.scss" />
+    <Content Include="src\scss\1-tools\animations\specials\_hinge.scss" />
+    <Content Include="src\scss\1-tools\animations\specials\_jackInTheBox.scss" />
+    <Content Include="src\scss\1-tools\animations\specials\_rollIn.scss" />
+    <Content Include="src\scss\1-tools\animations\specials\_rollOut.scss" />
+    <Content Include="src\scss\1-tools\animations\specials\_rotate.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_entrances\_zoomIn.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_entrances\_zoomInDown.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_entrances\_zoomInLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_entrances\_zoomInRight.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_entrances\_zoomInUp.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_exits\_zoomOut.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_exits\_zoomOutDown.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_exits\_zoomOutLeft.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_exits\_zoomOutRight.scss" />
+    <Content Include="src\scss\1-tools\animations\zooming_exits\_zoomOutUp.scss" />
+    <Content Include="src\scss\1-tools\animations\_base.scss" />
+    <Content Include="src\scss\1-tools\animations\_mixins.scss" />
+    <Content Include="src\scss\1-tools\_1-tools.scss" />
+    <Content Include="src\scss\1-tools\_animate.scss" />
+    <Content Include="src\scss\1-tools\_background-colors.scss" />
+    <Content Include="src\scss\1-tools\_boarder.scss" />
+    <Content Include="src\scss\1-tools\_box-shadow.scss" />
+    <Content Include="src\scss\1-tools\_cursor.scss" />
+    <Content Include="src\scss\1-tools\_fonts.scss" />
+    <Content Include="src\scss\1-tools\_list-style-none.scss" />
+    <Content Include="src\scss\1-tools\_radius.scss" />
+    <Content Include="src\scss\1-tools\_text.scss" />
+    <Content Include="src\scss\2-bases\_2-bases.scss" />
+    <Content Include="src\scss\2-bases\_a.scss" />
+    <Content Include="src\scss\2-bases\_body.scss" />
+    <Content Include="src\scss\2-bases\_button.scss" />
+    <Content Include="src\scss\2-bases\_checkbox.scss" />
+    <Content Include="src\scss\2-bases\_html.scss" />
+    <Content Include="src\scss\2-bases\_i.scss" />
+    <Content Include="src\scss\2-bases\_input.scss" />
+    <Content Include="src\scss\2-bases\_scrollbar.scss" />
+    <Content Include="src\scss\2-bases\_text-area.scss" />
+    <Content Include="src\scss\2-bases\_toggler.scss" />
+    <Content Include="src\scss\3-modules\_tooltip.scss" />
+    <Content Include="src\scss\3-modules\_card.scss" />
+    <Content Include="src\scss\3-modules\_profile-pic.scss" />
+    <Content Include="src\scss\3-modules\_section-divider.scss" />
+    <Content Include="src\scss\3-modules\_skill-icon.scss" />
+    <Content Include="src\scss\3-modules\_3-modules.scss" />
+    <Content Include="src\scss\3-modules\_bottons.scss" />
+    <Content Include="src\scss\3-modules\_container.scss" />
+    <Content Include="src\scss\3-modules\_dropdown.scss" />
+    <Content Include="src\scss\3-modules\_footer.scss" />
+    <Content Include="src\scss\3-modules\_font-icons.scss" />
+    <Content Include="src\scss\3-modules\_loading-text.scss" />
+    <Content Include="src\scss\3-modules\_modal.scss" />
+    <Content Include="src\scss\3-modules\_navbar.scss" />
+    <Content Include="src\scss\3-modules\_overrides.scss" />
+    <Content Include="src\scss\3-modules\_table.scss" />
+    <Content Include="src\scss\4-pages\_3-pages.scss" />
+    <Content Include="src\scss\4-pages\_welcome-page.scss" />
+    <Content Include="src\scss\main.scss" />
+    <Content Include="tsconfig.json" />
+    <Content Include="webpack.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\actions\AuthenticationAction.tsx" />
+    <TypeScriptCompile Include="src\actions\ContactMeAction.tsx" />
+    <TypeScriptCompile Include="src\actions\TokenAction.tsx" />
+    <TypeScriptCompile Include="src\actions\UserManagementAction.tsx" />
+    <TypeScriptCompile Include="src\App.tsx" />
+    <TypeScriptCompile Include="src\components\Card.tsx" />
+    <TypeScriptCompile Include="src\components\Container.tsx" />
+    <TypeScriptCompile Include="src\components\Divider.tsx" />
+    <TypeScriptCompile Include="src\components\Footer.tsx" />
+    <TypeScriptCompile Include="src\components\Loading.tsx" />
+    <TypeScriptCompile Include="src\components\NavMenu\NavMenu.tsx" />
+    <TypeScriptCompile Include="src\components\NavMenu\NavMenuItems.tsx" />
+    <TypeScriptCompile Include="src\components\CopyText.tsx" />
+    <TypeScriptCompile Include="src\core\AppClass.tsx" />
+    <TypeScriptCompile Include="src\core\AppConst.tsx" />
+    <TypeScriptCompile Include="src\core\AppFunc.tsx" />
+    <TypeScriptCompile Include="src\core\CustomRoute.tsx" />
+    <TypeScriptCompile Include="src\core\ProtectedRoute.tsx" />
+    <TypeScriptCompile Include="src\index.tsx" />
+    <TypeScriptCompile Include="src\pages\About.tsx" />
+    <TypeScriptCompile Include="src\pages\Contact.tsx" />
+    <TypeScriptCompile Include="src\pages\Error\CanvasHelper.tsx" />
+    <TypeScriptCompile Include="src\pages\Error\PageNotFound.tsx" />
+    <TypeScriptCompile Include="src\pages\Home\Home.tsx" />
+    <TypeScriptCompile Include="src\pages\Login\ForgotPassword.tsx" />
+    <TypeScriptCompile Include="src\pages\Login\Login.tsx" />
+    <TypeScriptCompile Include="src\pages\Login\NewCustomer.tsx" />
+    <TypeScriptCompile Include="src\pages\MyAccount\MyAccount.tsx" />
+    <TypeScriptCompile Include="src\reducers\AuthenticationReducer.tsx" />
+    <TypeScriptCompile Include="src\reducers\index.tsx" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
