@@ -1,12 +1,14 @@
 ﻿/*@import "../1-tools/animations/_mixins.scss";*/
 .navbar {
     z-index: 10;
+    // height: 5.5rem;
 }
 
 @media(min-device-width:768px) {
     .navbar {
         z-index: 10;
-        @include rotateInUpRight;
+        //   height: 6rem;
+        @include slideInDown;
         @include animated;
         @include faster;
     }
@@ -17,10 +19,11 @@
         position: absolute !important;
         width: 30rem !important;
         top: 90%;
-        z-index: 99;
+        z-index: 10;
         right: 0 !important;
         box-shadow: -0.2rem 0.6rem 1rem 0px LightThemeBoxShadow(.4);
-        padding: 0.5rem;
+        //padding: 0.5rem;
+        background-color: rgba(255, 255, 255,1) !important;
 
         &.hide {
             display: block;
@@ -47,6 +50,7 @@
         }
 
         body.dark-theme & {
+            background-color: rgba(45, 45, 48,1) !important;
             box-shadow: -0.5rem 0.6rem 1rem 0px DarkThemeBoxShadowColor(.4);
         }
     }
@@ -62,6 +66,7 @@
 
 .Logo {
     z-index: 100;
+    position: relative;
     max-height: 5.5rem;
     content: url("/public/images/Logo-Dark.png");
 
@@ -82,22 +87,23 @@
 }
 
 .text-nav {
-    color: LightThemeColor(.75);
     border-bottom: solid 0.5rem LightThemeColor(.20);
     transition: 500ms border-bottom;
+    color: lightThemeColor(.75) !important;
     font-size: 1.3rem;
+    height: 4rem;
 
     @media(max-width:768px) {
         & {
             font-size: 1.2rem;
-            margin-bottom: 0.5rem !important;
+            margin-bottom: 0.2rem !important;
             border-bottom: solid 0.2rem LightThemeColor(.20) !important;
         }
     }
 
     &:hover, &:focus, &.visited {
+        color: rgba(40, 62, 8, 0.75) !important;
         text-decoration: none;
-        color: rgba(40, 62, 8, 0.75);
         background-color: LightThemeColor(.07);
         border-bottom: solid 0.5rem LightThemeColor(.70);
         transition: 500ms;
@@ -129,7 +135,7 @@
     }
 
     body.dark-theme & {
-        color: DarkThemeColor(.75);
+        color: DarkThemeColor(.75) !important;
         border-bottom: solid 0.5rem DarkThemeColor(.2);
 
         @media(max-width:768px) {

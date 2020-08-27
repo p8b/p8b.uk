@@ -34,7 +34,7 @@ namespace P8B.UK.API.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
       [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
       [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
-      //[ValidateAntiForgeryToken]
+      [ValidateAntiForgeryToken]
       #endregion
       [HttpPost("PostMessege")]
       public async Task<IActionResult> PostMessage([FromBody] ContactMe contactMe)
@@ -50,7 +50,15 @@ namespace P8B.UK.API.Controllers
                return UnprocessableEntity(ErrorsList);
             }
             /// ch
-            await EmailService.SendEmailAsync("majid.joveini@gmail.com", $"{contactMe.Subject}", $"Email: {contactMe.Email}\nName:{contactMe.Name}\n\n{contactMe.Messege}").ConfigureAwait(false);
+            await EmailService.SendEmailAsync(
+               "majid.joveini@gmail.com",
+               $"Email From Portfolio",
+               $"Name:{contactMe.Name}\n" +
+               $"Email: {contactMe.Email}\n" +
+               $"Subject: {contactMe.Subject}\n\n" +
+               $"Message:\n" +
+               $"{contactMe.Messege}")
+               .ConfigureAwait(false);
             return Ok("Thank you for your messege. I will get back to you soon.");
          }
          catch (Exception)

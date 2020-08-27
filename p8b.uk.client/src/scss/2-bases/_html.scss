@@ -22,10 +22,6 @@ html {
         background-size: contain;
         background-image: url($CodeBg-Dark);
     }
-
-    &.dark-theme {
-        background-image: url($CodeBg-Light);
-    }
 }
 
 

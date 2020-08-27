@@ -10,8 +10,9 @@
     @include jackInTheBox;
     @include animated;
     @include faster;
-}
 
-.footer-behind {
-    z-index: -1;
+    &-behind {
+        @extend .footer;
+        z-index: -1;
+    }
 }

@@ -1,10 +1,15 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import { Container } from "./Container";
-import { Row } from "p8b.components.react/src/components/PureElements/_index";
-import { Toggler } from "p8b.components.react/src/components/Inputs/_index";
+import Container from "./Container";
+import { Row } from "./PureElements/Row";
+import { Toggler } from "./Inputs/Toggler";
 
 const Footer = () => {
+   let togglerChecked = false;
+   if (window.localStorage.getItem("isThemeDark") === "true") {
+      document.body!.classList.add("dark-theme");
+      togglerChecked = true;
+   }
    return (
       <footer id="footer" className="footer pt-4 slideInFromBottom">
          <Container className="w-100">
@@ -19,14 +24,19 @@ const Footer = () => {
                </Row>
                <Row className="col-12 justify-content-center p-0 m-0 mt-2">
                   <label className="col-6 h5 pl-2 pr-2 m-0 text-right" children="Theme" />
-                  <Toggler lblValue="Dark"
-                     lblAltValue="Light"
+                  <Toggler lblValue="Light"
+                     lblAltValue="Dark"
+                     defaultChecked={togglerChecked}
                      className="col-6 h5 pl-2 pr-2 m-0 text-left toggler-lg"
                      onChange={checked => {
-                        if (checked)
-                           document.body!.classList.remove("dark-theme");
-                        else
+                        if (checked) {
+                           window.localStorage.setItem("isThemeDark", "true");
                            document.body!.classList.add("dark-theme");
+                        }
+                        else {
+                           window.localStorage.setItem("isThemeDark", "false");
+                           document.body!.classList.remove("dark-theme");
+                        }
                      }} />
                </Row>
                <Row className="col-12 justify-content-center p-0 m-0 mt-2">
@@ -41,7 +51,7 @@ const Footer = () => {
                         className="github" children="github" />
                   </div>
                </Row>
-               <div className="col-12 text-center p-0 m-0 text-white cursor-default" children="&copy; 2020 P8B" />
+               <div className="col-12 text-center p-0 m-0 cursor-default" children="&copy; 2020 P8B" />
             </Row>
          </Container>
       </footer >

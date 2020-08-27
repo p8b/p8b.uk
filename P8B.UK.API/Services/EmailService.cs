@@ -75,16 +75,18 @@ namespace P8B.UK.API.Services
             await client.ConnectAsync(
                 _EmailSettings.MailServer,
                 _EmailSettings.MailPort,
-                SecureSocketOptions.SslOnConnect).ConfigureAwait(false);
+                SecureSocketOptions.SslOnConnect)
+               .ConfigureAwait(false);
 
             /// Pass the authentication information to the connected server to perform outgoing email request
-            await client.AuthenticateAsync(_EmailSettings.Sender, _EmailSettings.Password);
+            await client.AuthenticateAsync(_EmailSettings.Sender, _EmailSettings.Password)
+               .ConfigureAwait(false);
 
             /// use the smtp client to send the email
-            await client.SendAsync(message);
+            await client.SendAsync(message).ConfigureAwait(false);
 
             /// disconnect the smpt client connection
-            await client.DisconnectAsync(true);
+            await client.DisconnectAsync(true).ConfigureAwait(false);
          }
 
       }

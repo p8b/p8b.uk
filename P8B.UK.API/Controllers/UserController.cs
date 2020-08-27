@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Mime;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -13,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using P8B.Core.CSharp;
-using P8B.Core.CSharp.Extentions;
 using P8B.Core.CSharp.Models;
 using P8B.Core.CSharp.Models.Overrides;
 using P8B.UK.API.Database;
@@ -56,7 +53,6 @@ namespace P8B.UK.API.Controllers
       {
          try
          {
-            var test = CoreConst.AccessClaims.Customer;
             newUser.Role = await _DbContext.Roles.AsTracking()
                 .FirstOrDefaultAsync(r => r.AccessClaim.Equals(CoreConst.AccessClaims.Customer))
                 .ConfigureAwait(false);

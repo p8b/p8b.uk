@@ -1,200 +1,115 @@
-﻿import React from "react";
+﻿import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-
-import { DefaultNav, LoginNav, INavItem } from "./NavMenuItems";
-
-import { getLogout } from "../../actions/AuthenticationAction";
-import { IAuthenticationReducer } from "../../reducers/AuthenticationReducer";
-import { PurifyComponent } from "p8b.core.ts/src/components/Class.Extensions";
-import { AccessClaims } from "p8b.core.ts/src/components/Constant.Variables";
-import { Collapse } from "p8b.components.react/src/components/PureElements/_index";
+import { DefaultNav, LoginNav } from "./NavMenuItems";
+import { AccessClaims } from "../../core/constant.Variables";
+import { AuthContext } from "../../core/authenticationContext";
+import { useLogout } from "../../customHooks/apiCallers/authentication/getLogout";
+import { User } from "../../core/apiClass";
+import { useDetectOutsideClick } from "../../customHooks/sharedStateHooks/useDetectOutsideClick";
 
 // Navigation menu component
-class NavMenu extends PurifyComponent<IProps> {
-   myState: IMyState = {
-      toggleContainerNavBar: React.createRef(),
-      toggleContainerDropdown: React.createRef(),
-      smScreenNavIsOpen: false,
-      myAccDropdownBool: false,
-      refreshNavItems: true,
-      CurrentNavItems: [],
-      selectedNav: window.location.pathname,
-      logoAnimation: "slideInFromLeft",
-      menuAnimation: "slideInFromRight",
-      windowOffsetY: window.pageYOffset
+const NavMenu = (props: IProps) => {
+   const [NavContainer] = useState(React.createRef<HTMLDivElement>());
+   const [myAccDropDownButton] = useState(React.createRef<HTMLAnchorElement>());
+   const [initLoad, setInitLoad] = useState(true);
+   const auth = useContext(AuthContext);
+   const outsideClickSmallNav = useDetectOutsideClick(NavContainer, false);
+   const outsideClickMyAccDropDown = useDetectOutsideClick(myAccDropDownButton, false);
+   const [currentNavItems, setCurrentNavItems] = useState(DefaultNav);
+   const [selectedNav, setSelectedNav] = useState(window.location.pathname);
+
+   useEffect(() => {
+      setInitLoad(false);
+   }, []);
+   const logout = async () => {
+      const result = await useLogout();
+      if (result.isLogout) {
+         auth.setState({ isAuthenticated: false, user: new User() });
+         setCurrentNavItems(DefaultNav);
+      }
    };
-   constructor(props: IProps) {
-      super(props);
-      this.logout = this.logout.bind(this);
-      this.toggleNavbar = this.toggleNavbar.bind(this);
-      this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this);
-      this.onScroll = this.onScroll.bind(this);
-
-   }
-
-   componentDidMount() {
-      this.initLoad = false;
-      window.addEventListener("mousedown", this.onClickOutsideHandler);
-      window.addEventListener("scroll", this.onScroll);
-   }
-   componentWillUnmount() {
-      window.removeEventListener("mousedown", this.onClickOutsideHandler);
-      window.removeEventListener("scroll", this.onScroll);
-   }
-   onScroll() {
-      var currentScrollPos = window.pageYOffset;
-      if ((this.myState.windowOffsetY + (this.myState.toggleContainerNavBar.current!.getBoundingClientRect().height / 2)) >= currentScrollPos) {
-         this.reRender(() => {
-            this.myState.logoAnimation = "slideInFromLeft";
-            this.myState.menuAnimation = "slideInFromRight";
-         });
-      } else {
-         this.reRender(() => {
-            this.myState.logoAnimation = "slideOutFromBottom";
-            this.myState.menuAnimation = "slideOutFromRight";
-         });
+   const setSelectedNavItem = async () => {
+      /// must be delayed to avoid render conflicts
+      await new Promise(resolve => setTimeout(resolve, 1));
+      if (selectedNav !== window.location.pathname)
+         setSelectedNav(window.location.pathname);
+   };
+   useEffect(() => {
+      /// Check which menu items to show for the user
+      switch (auth.state.user.role?.accessClaim) {
+         case AccessClaims.Admin:
+         case AccessClaims.Manager:
+         case AccessClaims.Customer:
+         case AccessClaims.Staff:
+         case AccessClaims.User:
+            setCurrentNavItems(LoginNav);
+            break;
+         default:
+            setCurrentNavItems(DefaultNav);
+            break;
       }
-   }
-   onClickOutsideHandler(event: any) {
-      if (event.target.classList.value.includes("toggler-icon"))
-         return;
+   }, [auth.state.isAuthenticated]);
+   return (
+      <header>
+         <nav id="navbar" ref={NavContainer}
+            className="navbar bg-white navbar-expand-md m-0 p-0">
+            {/** Logo & toggler icon */}
+            <Link to="/" className="logo-container"
+               children={<img id="logo" alt="Logo" className="Logo " />} />
+            <button className={`fas toggler-icon ${outsideClickSmallNav.isActive ? "show" : "hide"}`}
+               type="button" name="toggler"
+               onClick={() => { outsideClickSmallNav.setIsActive((prevVal) => !prevVal); }} />
 
-      const { myAccDropdownBool, smScreenNavIsOpen, toggleContainerDropdown, toggleContainerNavBar } = this.myState;
-      // only if the drop-down menu is activated and the user clicks away from the menu
-      try {
-         if (myAccDropdownBool && !toggleContainerDropdown.current?.contains(event.target))
-            this.reRender(() => this.myState.smScreenNavIsOpen = false);
-      } catch (e) { }
+            <div className={`d-md-inline-flex flex-md-row col-12 col-md p-0 collapse ${outsideClickSmallNav.isActive ? "show bg-white bg-solid" : !initLoad && 'hide'}`}
+            >
+               <div className="ml-auto" />
+               {/** user links */}
+               {currentNavItems.map(link =>
+                  <Link key={link.id} children={<div className="w-auto ml-auto mr-auto">{link.displayName}</div>}
+                     className={`navbar text-nav bg-white ${selectedNav === link.path ? "visited" : ""}`}
+                     to={() => {
+                        setSelectedNavItem();
+                        return link.path;
+                     }}
+                     onClick={() => outsideClickSmallNav.setIsActive(false)}
+                  />
+               )}
+               {auth.state.isAuthenticated &&
+                  <>
+                     <div className="dropdown">
+                        <a className={` bg-white text-underline dropdown-toggle navbar text-nav
+                                    ${selectedNav === "/MyAccount" ? "visited" : ""}`}
+                           children={<div className="w-auto ml-auto mr-auto">My Account</div>}
+                           onClick={() => outsideClickMyAccDropDown.setIsActive(true)}
 
-      // close Navigation menu in small screen when user clicks away from the menu (When user is logged in)
-      // this is used so that the navigation menu is not closed when the drop-down items are selected
-      try {
-         if (smScreenNavIsOpen && !toggleContainerDropdown.current?.contains(event.target)
-            && !toggleContainerNavBar.current?.contains(event.target))
-            this.reRender(() => this.myState.smScreenNavIsOpen = !smScreenNavIsOpen);
-      } catch (e) {
-         // if the user is NOT logged in the error is thrown
-         // then try to hide the navigation menu in small screen
-         try {
-            if (smScreenNavIsOpen && !this.myState.toggleContainerNavBar.current?.contains(event.target))
-               this.reRender(() => this.myState.smScreenNavIsOpen = !smScreenNavIsOpen);
-         } catch (e) { }
-      }
-   }
-   async toggleNavbar() {
-      this.reRender(() => this.myState.smScreenNavIsOpen = !this.myState.smScreenNavIsOpen);
-   }
-
-   async logout() {
-      await this.props.getLogout();
-      this.reRender(() => {
-         this.myState.CurrentNavItems = DefaultNav;
-         this.myState.refreshNavItems = false;
-      });
-   }
-   render() {
-      if (this.myState.refreshNavItems) {
-         /// Check which menu items to show for the user
-         switch (this.props.Authentication.user.role?.accessClaim) {
-            case AccessClaims.Admin:
-            case AccessClaims.Manager:
-            case AccessClaims.Customer:
-            case AccessClaims.Staff:
-            case AccessClaims.User:
-               this.myState.CurrentNavItems = LoginNav;
-               break;
-            default:
-               this.myState.CurrentNavItems = DefaultNav;
-               break;
-         }
-      } else {
-         this.myState.refreshNavItems = true;
-      }
-      return (
-         <header>
-            <div className="navbar navbar-expand-md m-0 p-0">
-               {/** Logo & toggler icon */}
-               <Link to="/" children={<img alt="OSnack" className="Logo" />}
-                  className="logo-container" />
-               <button className={`fas toggler-icon ${this.myState.smScreenNavIsOpen ? "show" : "hide"}`}
-                  type="button" name="toggler"
-                  onClick={this.toggleNavbar} />
-
-               <Collapse className="navbar-collapse bg-sm-white bg-solid hide" initLoad={this.initLoad}
-                  reff={this.myState.toggleContainerNavBar}
-                  isOpen={this.myState.smScreenNavIsOpen}>
-                  <div className="ml-auto" />
-                  {/** user links */}
-                  {this.myState.CurrentNavItems.map(link =>
-                     <Link key={link.id} children={<div className="w-auto ml-auto mr-auto">{link.displayName}</div>}
-                        className={`navbar text-nav ${this.myState.selectedNav === link.path ? "visited" : ""}`}
-                        to={() => {
-                           if (this.myState.selectedNav !== window.location.pathname)
-                              this.reRender(() => this.myState.selectedNav = window.location.pathname, 1);
-                           return link.path;
-                        }}
-                     />
-                  )}
-                  {this.props.Authentication.isAuthenticated &&
-                     <div className="dropdown" ref={this.myState.toggleContainerDropdown}>
-                        <a className="text-nav navbar text-underline dropdown-toggle"
-                           onClick={() => this.reRender(() =>
-                              this.myState.myAccDropdownBool = !this.myState.myAccDropdownBool
-                           )}
-                           children="My Account"
                         />
-                        {this.myState.myAccDropdownBool && (
-                           <span className={"dropdown-menu text-center dropdown-menu-right bg-white dropdown-span show"}>
-                              <Link className="dropdown-item text-nav" key="0"
-                                 to="/MyOrders"
-                                 children="Orders" />
-                              <Link className="dropdown-item text-nav" key="1"
-                                 to="/MyAccount"
-                                 children="Account" />
-
-                              <a className="dropdown-item text-nav" key="2"
-                                 onClick={this.logout}
-                                 children="Logout" />
-                           </span>
-                        )}
+                        <span ref={myAccDropDownButton}
+                           className={`dropdown-menu text-center dropdown-menu-right bg-white dropdown-span ${outsideClickMyAccDropDown.isActive ? "show" : ""}`}>
+                           <Link className="dropdown-item" key="1"
+                              to={() => {
+                                 setSelectedNavItem();
+                                 return "/MyAccount";
+                              }}
+                              children="Account"
+                              onClick={() => outsideClickMyAccDropDown.setIsActive(false)}
+                           />
+                           <Link to="" className="dropdown-item" key="2"
+                              onClick={() => {
+                                 outsideClickMyAccDropDown.setIsActive(false);
+                                 logout();
+                              }}
+                              children="Logout" />
+                        </span>
                      </div>
-                  }
-               </Collapse>
+                  </>
+               }
             </div>
-         </header>
-      );
-   }
-}
+         </nav>
+      </header>
+   );
+};
 
-declare type IMyState = {
-   toggleContainerNavBar: React.RefObject<HTMLDivElement>;
-   toggleContainerDropdown: React.RefObject<HTMLDivElement>;
-   smScreenNavIsOpen: boolean;
-   myAccDropdownBool: boolean;
-   refreshNavItems: boolean;
-   CurrentNavItems: INavItem[];
-   selectedNav: string;
-   logoAnimation: string;
-   menuAnimation: string;
-   windowOffsetY: number;
-};
 declare type IProps = {
-   getLogout: typeof getLogout,
-   Basket: [],
-   Authentication: IAuthenticationReducer;
 };
-export default connect(
-   (state: any) => {
-      return {
-         Authentication: state.Authentication,
-         Basket: state.Basket
-      };
-   },
-   (dispatch) => bindActionCreators(
-      {
-         getLogout
-      }, dispatch))
-   (NavMenu);
+export default NavMenu;

@@ -9,6 +9,52 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const isDevelopment = false;
 const outputPublicPath = "./build/public/";
 
+const copyObjects = [
+   {
+      from: path.resolve(__dirname, "public/favicon.ico"),
+      to: path.resolve(__dirname, `${outputPublicPath}`)
+   },
+   {
+      from: path.resolve(__dirname, "public/manifest.json"),
+      to: path.resolve(__dirname, `${outputPublicPath}`)
+   },
+   {
+      from: path.resolve(__dirname, "public/styles"),
+      to: path.resolve(__dirname, `${outputPublicPath}styles/`)
+   },
+   {
+      from: path.resolve(__dirname, "public/images/"),
+      to: path.resolve(__dirname, `${outputPublicPath}images/`)
+   },
+   {
+      from: path.resolve(__dirname, "public/fonts/"),
+      to: path.resolve(__dirname, `${outputPublicPath}fonts/`)
+   },
+   {
+      from: path.resolve(__dirname, "public/docs/"),
+      to: path.resolve(__dirname, `${outputPublicPath}docs/`)
+   }
+];
+if (!isDevelopment)
+   copyObjects.concat([
+      {
+         from: path.resolve(__dirname, "server/server-production.js"),
+         to: path.resolve(__dirname, `./build`)
+      },
+      {
+         from: path.resolve(__dirname, "server/cert/key.pem"),
+         to: path.resolve(__dirname, `./build/cert/`)
+      },
+      {
+         from: path.resolve(__dirname, "server/cert/cert.pem"),
+         to: path.resolve(__dirname, `./build/cert/`)
+      },
+      {
+         from: path.resolve(__dirname, "package.json"),
+         to: path.resolve(__dirname, `./build`)
+      },
+   ]);
+
 module.exports = {
    mode: isDevelopment ? "development" : "production",
    devtool: isDevelopment && "eval-source-map",
@@ -53,7 +99,7 @@ module.exports = {
       port: 8080,
       open: true,
       openPage: "",
-      //host: "192.168.1.11",
+      //   host: "192.168.1.11",
       historyApiFallback: true,
    },
    plugins: [
@@ -68,50 +114,10 @@ module.exports = {
          filename: "index.html",
          scriptLoading: "async",
       }),
-      !isDevelopment ? new CopyPlugin([
-         {
-            from: path.resolve(__dirname, "server/server-production.js"),
-            to: path.resolve(__dirname, `./build`)
-         },
-         {
-            from: path.resolve(__dirname, "server/cert/key.pem"),
-            to: path.resolve(__dirname, `./build/cert/`)
-         },
-         {
-            from: path.resolve(__dirname, "server/cert/cert.pem"),
-            to: path.resolve(__dirname, `./build/cert/`)
-         },
-         {
-            from: path.resolve(__dirname, "package.json"),
-            to: path.resolve(__dirname, `./build`)
-         },
-      ]) : new CopyPlugin(),
-      new CopyPlugin([
-         {
-            from: path.resolve(__dirname, "public/favicon.ico"),
-            to: path.resolve(__dirname, `${outputPublicPath}`)
-         },
-         {
-            from: path.resolve(__dirname, "public/manifest.json"),
-            to: path.resolve(__dirname, `${outputPublicPath}`)
-         },
-         {
-            from: path.resolve(__dirname, "public/styles"),
-            to: path.resolve(__dirname, `${outputPublicPath}styles/`)
-         },
-         {
-            from: path.resolve(__dirname, "public/images/"),
-            to: path.resolve(__dirname, `${outputPublicPath}images/`)
-         },
-         {
-            from: path.resolve(__dirname, "public/fonts/"),
-            to: path.resolve(__dirname, `${outputPublicPath}fonts/`)
-         },
-         {
-            from: path.resolve(__dirname, "public/docs/"),
-            to: path.resolve(__dirname, `${outputPublicPath}docs/`)
-         }
-      ]),],
+      new CopyPlugin({
+         patterns: copyObjects
+      })
+   ],
    externals: {
       "react": "React",
       "react-dom": "ReactDOM",

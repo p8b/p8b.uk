@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="build\" />
-    <Folder Include="build\cert\" />
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />
     <Folder Include="public\images\icons\" />
@@ -43,16 +42,27 @@
     <Folder Include="src\" />
     <Folder Include="server\" />
     <Folder Include="public\" />
-    <Folder Include="src\actions\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\components\Buttons\" />
+    <Folder Include="src\components\DataDisplay\" />
+    <Folder Include="src\components\DataDisplay\Table\" />
+    <Folder Include="src\components\Inputs\" />
     <Folder Include="src\components\NavMenu\" />
+    <Folder Include="src\components\PureElements\" />
+    <Folder Include="src\components\Texts\" />
     <Folder Include="src\core\" />
+    <Folder Include="src\customHooks\" />
+    <Folder Include="src\customHooks\apiCallers\" />
+    <Folder Include="src\customHooks\apiCallers\contact\" />
+    <Folder Include="src\customHooks\apiCallers\authentication\" />
+    <Folder Include="src\customHooks\apiCallers\token\" />
+    <Folder Include="src\customHooks\apiCallers\user\" />
+    <Folder Include="src\customHooks\sharedStateHooks\" />
     <Folder Include="src\pages\Error\" />
     <Folder Include="src\pages\Home\" />
     <Folder Include="src\pages\Login\" />
     <Folder Include="src\pages\MyAccount\" />
     <Folder Include="src\scss\" />
-    <Folder Include="src\reducers\" />
     <Folder Include="src\pages\" />
     <Folder Include="src\scss\0-helpers\" />
     <Folder Include="src\scss\1-tools\" />
@@ -77,10 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="babel.config.js" />
-    <Content Include="build\cert\cert.pem" />
-    <Content Include="build\cert\key.pem" />
-    <Content Include="build\package.json" />
-    <Content Include="build\server-production.js" />
     <Content Include="package.json" />
     <Content Include="public\docs\Majid-Joveini-CV.pdf" />
     <Content Include="public\favicon.ico" />
@@ -257,24 +263,46 @@
     <Content Include="webpack.config.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\actions\AuthenticationAction.tsx" />
-    <TypeScriptCompile Include="src\actions\ContactMeAction.tsx" />
-    <TypeScriptCompile Include="src\actions\TokenAction.tsx" />
-    <TypeScriptCompile Include="src\actions\UserManagementAction.tsx" />
     <TypeScriptCompile Include="src\App.tsx" />
+    <TypeScriptCompile Include="src\components\Buttons\Button.tsx" />
+    <TypeScriptCompile Include="src\components\Buttons\FacebookLogin.tsx" />
+    <TypeScriptCompile Include="src\components\Buttons\GithubLogin.tsx" />
+    <TypeScriptCompile Include="src\components\Buttons\GoogleLogin.tsx" />
     <TypeScriptCompile Include="src\components\Card.tsx" />
     <TypeScriptCompile Include="src\components\Container.tsx" />
+    <TypeScriptCompile Include="src\components\DataDisplay\Modal.tsx" />
+    <TypeScriptCompile Include="src\components\DataDisplay\Table\Class.tsx" />
+    <TypeScriptCompile Include="src\components\DataDisplay\Table\index.tsx" />
+    <TypeScriptCompile Include="src\components\DataDisplay\Table\Table.tsx" />
     <TypeScriptCompile Include="src\components\Divider.tsx" />
     <TypeScriptCompile Include="src\components\Footer.tsx" />
+    <TypeScriptCompile Include="src\components\Inputs\CheckBox.tsx" />
+    <TypeScriptCompile Include="src\components\Inputs\Input.tsx" />
+    <TypeScriptCompile Include="src\components\Inputs\TextArea.tsx" />
+    <TypeScriptCompile Include="src\components\Inputs\Toggler.tsx" />
     <TypeScriptCompile Include="src\components\Loading.tsx" />
     <TypeScriptCompile Include="src\components\NavMenu\NavMenu.tsx" />
     <TypeScriptCompile Include="src\components\NavMenu\NavMenuItems.tsx" />
     <TypeScriptCompile Include="src\components\CopyText.tsx" />
-    <TypeScriptCompile Include="src\core\AppClass.tsx" />
-    <TypeScriptCompile Include="src\core\AppConst.tsx" />
-    <TypeScriptCompile Include="src\core\AppFunc.tsx" />
-    <TypeScriptCompile Include="src\core\CustomRoute.tsx" />
-    <TypeScriptCompile Include="src\core\ProtectedRoute.tsx" />
+    <TypeScriptCompile Include="src\components\PureElements\Row.tsx" />
+    <TypeScriptCompile Include="src\components\Texts\Alert.tsx" />
+    <TypeScriptCompile Include="src\components\Texts\PageHeader.tsx" />
+    <TypeScriptCompile Include="src\core\apiClass.tsx" />
+    <TypeScriptCompile Include="src\core\appClasses.tsx" />
+    <TypeScriptCompile Include="src\core\constant.Variables.tsx" />
+    <TypeScriptCompile Include="src\core\appFunc.tsx" />
+    <TypeScriptCompile Include="src\core\customRoute.tsx" />
+    <TypeScriptCompile Include="src\core\authenticationContext.tsx" />
+    <TypeScriptCompile Include="src\core\type.Extensions.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\authentication\getLogout.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\authentication\getSilentAuthentication.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\authentication\postLogin.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\contact\postContact.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\token\getIsTokenValid.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\user\postPasswordResetRequest.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\user\postUser.tsx" />
+    <TypeScriptCompile Include="src\customHooks\apiCallers\user\putTokenPasswordRest.tsx" />
+    <TypeScriptCompile Include="src\customHooks\sharedStateHooks\useDetectOutsideClick.tsx" />
     <TypeScriptCompile Include="src\index.tsx" />
     <TypeScriptCompile Include="src\pages\About.tsx" />
     <TypeScriptCompile Include="src\pages\Contact.tsx" />
@@ -285,8 +313,6 @@
     <TypeScriptCompile Include="src\pages\Login\Login.tsx" />
     <TypeScriptCompile Include="src\pages\Login\NewCustomer.tsx" />
     <TypeScriptCompile Include="src\pages\MyAccount\MyAccount.tsx" />
-    <TypeScriptCompile Include="src\reducers\AuthenticationReducer.tsx" />
-    <TypeScriptCompile Include="src\reducers\index.tsx" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

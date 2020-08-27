@@ -1,14 +1,8 @@
-﻿import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getSilentAuthentication } from "../../actions/AuthenticationAction";
-
+﻿import React, { useState, useEffect } from "react";
 import "./canvas.css";
 import { Circle, MousePos } from "./CanvasHelper";
-import { IReduxStoreState } from "../../reducers";
-import { Container } from "../../components/Container";
-import { PurifyComponent } from "p8b.core.ts/src/components/Class.Extensions";
-import { PageHeader } from "p8b.components.react/src/components/Texts/_index";
+import Container from "../../components/Container";
+import { PageHeader } from "../../components/Texts/PageHeader";
 
 declare type IMyState = {
    canvas: React.RefObject<HTMLCanvasElement>;
@@ -16,40 +10,34 @@ declare type IMyState = {
    circle: Circle;
    mousePos: MousePos;
 };
-class PageNotFound extends PurifyComponent<Props> {
-   myState: IMyState = {
-      canvas: React.createRef(),
-      timer: setInterval(() => {
-         //this.onloadCanva();
-      }, Math.RandomInteger(100, 100)) as unknown as NodeJS.Timeout,
-      circle: new Circle(),
-      mousePos: new MousePos()
+const PageNotFound = () => {
+   const canvas = React.createRef<HTMLCanvasElement>();
+   let timer = 0;
+   //const [circle, setCircle] = useState(new Circle());
+   const [mousePos, setMousePos] = useState(new MousePos());
+
+   useEffect(() => {
+      canvas.current?.addEventListener("mousemove", (event: any) => onMouseMove(event));
+      canvas.current?.addEventListener("resize", resetCanvas);
+      onloadCanva();
+      return () => {
+         clearInterval(timer);
+         canvas.current?.removeEventListener("mousemove", onMouseMove);
+         canvas.current?.removeEventListener("resize", resetCanvas);
+      };
+
+   }, []);
+   const onMouseMove = (event: any) => {
+      setMousePos({ x: event.offsetX, y: event.offsetY });
+      //mousePos.x = event.offsetX;
+      //mousePos.y = event.offsetY;
    };
-   constructor(props: Props) {
-      super(props);
-      this.onMouseMove = this.onMouseMove.bind(this);
-      this.resetCanvas = this.resetCanvas.bind(this);
-   }
-   componentWillUnmount() {
-      clearInterval(this.myState.timer);
-      this.myState.canvas.current?.removeEventListener("mousemove", this.onMouseMove);
-      this.myState.canvas.current?.removeEventListener("resize", this.resetCanvas);
-   }
-   componentDidMount() {
-      this.myState.canvas.current?.addEventListener("mousemove", (event: globalThis.MouseEvent) => this.onMouseMove(event));
-      this.myState.canvas.current?.addEventListener("resize", this.resetCanvas);
-      this.onloadCanva();
-   }
-   onMouseMove(event: globalThis.MouseEvent) {
-      this.myState.mousePos.x = event.offsetX;
-      this.myState.mousePos.y = event.offsetY;
-   }
-   resetCanvas() {
-      clearInterval(this.myState.timer);
-      this.onloadCanva();
-   }
-   onloadCanva() {
-      const c = this.myState.canvas.current?.getContext("2d");
+   const resetCanvas = () => {
+      clearInterval(timer);
+      onloadCanva();
+   };
+   const onloadCanva = () => {
+      const c = canvas.current?.getContext("2d");
       c!.canvas.width = window.innerWidth;
       //c!.canvas.width = stringToNumber((window.innerWidth / 1.3).toFixed(2));
       c!.canvas.height = window.innerHeight;
@@ -69,7 +57,7 @@ class PageNotFound extends PurifyComponent<Props> {
          );
          circles.push(cr);
       }
-      this.myState.timer = setInterval(() => this.reRender(() => {
+      timer = setInterval(() => {
          if (window.innerWidth !== c?.canvas.width)
             c!.canvas.width = window.innerWidth;
          if (window.innerHeight !== c?.canvas.height)
@@ -83,8 +71,8 @@ class PageNotFound extends PurifyComponent<Props> {
                cir.fillColor = cir.fillColorDark;
             }
 
-            if ((cir.x > (this.myState.mousePos.x! - msRd) && cir.x < (this.myState.mousePos.x! + msRd)) &&
-               (cir.y > (this.myState.mousePos.y! - msRd) && cir.y < (this.myState.mousePos.y! + msRd))) {
+            if ((cir.x > (mousePos.x! - msRd) && cir.x < (mousePos.x! + msRd)) &&
+               (cir.y > (mousePos.y! - msRd) && cir.y < (mousePos.y! + msRd))) {
                cir.radius = cir.radiusOrg * 5;
             }
             else {
@@ -95,32 +83,18 @@ class PageNotFound extends PurifyComponent<Props> {
             else
                cir.drawSpace(c);
          });
-      }), 30) as unknown as NodeJS.Timeout;
-   }
-   render() {
-      return (
-         <Container className="custom-container row p-0 m-0"   >
-            <PageHeader children="Page Not Found"
-               className="col-12 ml-auto mr-auto text-center" />
-            <canvas ref={this.myState.canvas}
-               className="canvas1"
-               onClick={() => { this.resetCanvas(); }}
-            />
-         </Container>
-      );
-   }
-}
-
-declare type Props = {
-   getSilentAuthentication: any;
+      }, 30) as unknown as number;
+   };
+   return (
+      <Container className="custom-container row p-0 m-0"   >
+         <PageHeader children="Page Not Found"
+            className="col-12 ml-auto mr-auto text-center" />
+         <canvas ref={canvas}
+            className="canvas1"
+            onClick={() => { resetCanvas(); }}
+         />
+      </Container>
+   );
 };
-export default connect(
-   (state: IReduxStoreState) => {
-      return {
-         Authentication: state.Authentication
-      };
-   },
-   dispatch => bindActionCreators({
-      getSilentAuthentication
-   }, dispatch)
-)(PageNotFound);
+
+export default PageNotFound;

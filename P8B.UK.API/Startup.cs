@@ -37,11 +37,11 @@ namespace P8B.UK.API
          /// Enable API calls from specified origins only
          services.AddCors(options =>
          {
-            options.AddPolicy("WebApp",
+            options.AddPolicy("CorsPolicy",
                 builder => builder
+                .AllowCredentials()
                 .WithOrigins(AppConst.Settings.OpenCors)
                 .AllowAnyMethod()
-                .AllowCredentials()
                 .WithHeaders("Accept",
                 "content-type",
                 "X-AF-TOKEN",
@@ -51,13 +51,13 @@ namespace P8B.UK.API
 
          /// Add the anti-forgery service and identify the
          /// the header name of the request to identify and validate the token
-         //services.AddAntiforgery(options =>
-         //{
-         //   options.HeaderName = "X-AF-TOKEN";
-         //   options.Cookie.SameSite = SameSiteMode.None;
-         //   //options.Cookie.HttpOnly = true;
-         //   //options.Cookie.Name = "XX-AF-Token";
-         //});
+         services.AddAntiforgery(options =>
+         {
+            options.HeaderName = "X-AF-TOKEN";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+         });
 
          /// Pass the SQL server connection to the db context
          /// receive the connection string from the settings.json
@@ -176,7 +176,7 @@ namespace P8B.UK.API
          }
          app.UseHttpsRedirection();
 
-         app.UseCors("WebApp");
+         app.UseCors("CorsPolicy");
          ///// Only the mentioned CORs are allowed.(excepts excluded paths)
          app.Use(next => context =>
          {
@@ -190,30 +190,47 @@ namespace P8B.UK.API
             context.Request.Path = "/";
             foreach (var COR in AppConst.Settings.OpenCors)
             {
-               if (context.Request.Headers.TryGetValue("Origin", out StringValues value)
-                  && COR.EqualCurrentCultureIgnoreCase(value.ToString()))
+               if (context.Request.Headers.TryGetValue("Origin", out StringValues Originvalue)
+                  && COR.EqualCurrentCultureIgnoreCase(Originvalue.ToString()))
                   context.Request.Path = OrgPath;
             }
             return next(context);
          });
 
-         ///// Add the anti-forgery cookie to the context response
-         //app.Use(next => context =>
-         //{
-         //   if (context.Request.Path.ToString().EqualCurrentCultureIgnoreCase("/Authentication/GetAntiforgeryToken"))
-         //   {
-         //      AntiforgeryTokenSet tokens = antiforgery.GetAndStoreTokens(context);
-         //      context.Response.Cookies.Append(
-         //             "AF-TOKEN",
-         //             tokens.RequestToken,
-         //             new CookieOptions()
-         //             {
-         //                HttpOnly = false,
-         //                SameSite = SameSiteMode.None
-         //             }); ;
-         //   }
-         //   return next(context);
-         //});
+         /// Add the anti-forgery cookie to the context response
+         app.Use(next => context =>
+         {
+            if (context.Request.Path.ToString().EqualCurrentCultureIgnoreCase("/Authentication/GetAntiforgeryToken"))
+            {
+               AntiforgeryTokenSet tokens = antiforgery.GetAndStoreTokens(context);
+               //if (env.IsDevelopment())
+               //{
+               //   context.Response.Cookies.Append(
+               //      "AF-TOKEN",
+               //      tokens.RequestToken,
+               //      new CookieOptions()
+               //      {
+               //         HttpOnly = false,
+               //         SameSite = SameSiteMode.Lax,
+               //         Secure = true,
+               //      });
+               //}
+               //else
+               //{
+                  context.Response.Cookies.Append(
+                      "AF-TOKEN",
+                      tokens.RequestToken,
+                      new CookieOptions()
+                      {
+                         HttpOnly = false,
+                         SameSite = SameSiteMode.Lax,
+                         Secure = true,
+                         Domain = ".p8b.uk"
+                      });
+               //}
+            }
+            return next(context);
+         });
 
          /// Allow the use of static files from wwwroot folder
          app.UseStaticFiles();

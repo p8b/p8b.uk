@@ -11,10 +11,15 @@ export const DefaultNav = [
       displayName: "About",
    },
    {
-      id: 1,
+      id: 2,
       path: "/Contact",
       displayName: "Contact",
-   }
+   },
+   //{
+   //   id: 3,
+   //   path: "/Login",
+   //   displayName: "Login",
+   //}
 ];
 
 export const LoginNav = [
